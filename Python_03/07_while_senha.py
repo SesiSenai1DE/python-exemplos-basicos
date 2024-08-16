@@ -6,7 +6,7 @@ while i <= 3:
     senha = input("Informe a senha: ")
 
     # Checagem
-    if user != "Gisele" and senha != "123":
+    if user != "Gisele" or senha != "123":
         i += 1
         print("Usuário ou Senha incorretos!")
         print(" ")
