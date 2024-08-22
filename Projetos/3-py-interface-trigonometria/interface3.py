@@ -27,15 +27,23 @@ def calcular():
         angulo = float(entrada_angulo.get())  # Obtém o valor do ângulo inserido pelo usuário
         radiano = math.radians(angulo)  # Converte o ângulo de graus para radianos
         
-        # Calcula os valores trigonométricos
+        # Calcula os valores trigonométricos (Sen e Cos)
         seno = math.sin(radiano)
         cosseno = math.cos(radiano)
-        tangente = math.tan(radiano)
-        
-        # Atualiza as labels com os resultados formatados com 3 casas decimais
+
+        # Atualiza as labels com os resultados formatados com 3 casas decimais (Sen e Cos)
         resultado_seno.config(text=f"{seno:.3f}")
         resultado_cosseno.config(text=f"{cosseno:.3f}")
+
+        # Verifica se tangente = 90º
+        if angulo == 90:
+            resultado_tangente.config(text="Indefinido")
+        else:
+            tangente = math.tan(radiano)
+
+        # Exibe resultado da tangente
         resultado_tangente.config(text=f"{tangente:.3f}")
+
     except ValueError:
         # Em caso de erro (por exemplo, entrada inválida), exibe "Erro" nas labels
         resultado_seno.config(text="Erro")
