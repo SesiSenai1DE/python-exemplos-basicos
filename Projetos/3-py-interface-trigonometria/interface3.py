@@ -18,6 +18,17 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)  # Retorna o caminho completo do arquivo
 
+def validar_entrada(texto):
+    """
+    Valida a entrada do usuário permitindo apenas números e garantindo que o valor esteja entre 0 e 90.
+    """
+    if texto.isdigit() or texto == "":  # Permite apenas números ou campo vazio
+        if texto == "":  # Se o campo estiver vazio, permite a entrada
+            return True
+        valor = int(texto)  # Converte o texto para inteiro
+        return 0 <= valor <= 90  # Retorna True se o valor estiver entre 0 e 90, caso contrário False
+    return False  # Se o texto não for um número, retorna False
+
 # Configuração da janela principal
 janela = tk.Tk() #Cria a janela principal
 janela.title("Calculadora Trigonométrica") #Título
@@ -46,6 +57,23 @@ except FileNotFoundError:
     # Caso a imagem não seja encontrada, exibe uma mensagem de texto no lugar da imagem
     label_imagem = tk.Label(janela, text="Imagem 'seno2.png' não encontrada", bg="#f0f0f0")
     label_imagem.pack(pady=20)
+
+# Entrada do ângulo
+frame_entrada = tk.Frame(janela, bg="#f0f0f0")  # Cria um frame para organizar a entrada
+frame_entrada.pack(pady=10)  # Posiciona o frame na janela com um espaçamento vertical
+
+label_angulo = tk.Label(frame_entrada, text="Ângulo (0 à 90):", font=('Arial', 14), bg="#f0f0f0")  # Label para o campo de entrada
+label_angulo.pack(pady=(0, 5))  # Posiciona o label com um pequeno espaçamento inferior
+
+validacao = janela.register(validar_entrada)  # Registra a função de validação para a entrada
+entrada_angulo = tk.Entry(frame_entrada, width=3, justify='center', font=('Arial', 16), 
+                          bd=0, highlightthickness=0, relief='flat', bg="#f0f0f0", fg='red',
+                          validate="key", validatecommand=(validacao, '%P'))  # Cria o campo de entrada do ângulo
+entrada_angulo.pack()  # Posiciona o campo de entrada
+
+# Linha abaixo do campo de entrada
+linha = tk.Frame(frame_entrada, bg="black", height=1, width=entrada_angulo.winfo_reqwidth())  # Cria uma linha decorativa abaixo do campo de entrada
+linha.pack(pady=(0,5))  # Posiciona a linha com um pequeno espaçamento inferior
 
 
 # Iniciar Janela
