@@ -17,12 +17,22 @@ def resource_path(relative_path):
     # Retorna o caminho absoluto combinando o caminho base e o relativo
     return os.path.join(base_path, relative_path)
 
+def get_db_path():
+    if getattr(sys, 'frozen', False):
+        # Se estiver rodando como executável
+        application_path = os.path.dirname(sys.executable)
+    else:
+        # Se estiver rodando em desenvolvimento
+        application_path = os.path.dirname(os.path.abspath(__file__))
+    
+    return os.path.join(application_path, 'cadastro_simplificado.db')
+
 # Classe principal da interface gráfica
 class TelaCadastro(ctk.CTk):
     def __init__(self):
         super().__init__()
-        # Conecta ao banco de dados
-        db_path = resource_path('bd/cadastro_simplificado.db')
+        # Usa o novo método para obter o caminho do banco de dados
+        db_path = get_db_path()
         self.db = Database(db_path)
         self.user_operations = UserOperations(self.db, self)
         self.setup_ui()
@@ -139,7 +149,7 @@ class TelaCadastro(ctk.CTk):
             self.switch_mode_btn.configure(image=self.light_image)
 
 if __name__ == "__main__":
-    ctk.set_appearance_mode("System")  # Modes: system (default), light, dark
-    ctk.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
+    ctk.set_appearance_mode("System")
+    ctk.set_default_color_theme("blue")
     app = TelaCadastro()
     app.mainloop()
